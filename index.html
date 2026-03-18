@@ -2,55 +2,184 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Cadastro de Cliente</title>
+    <title>Cadastro - Dark World Party</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f4f9; display: flex; justify-content: center; padding: 20px; }
-        .container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); width: 100%; max-width: 500px; }
-        h2 { color: #333; text-align: center; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; color: #666; }
-        input[type="text"], input[type="email"], input[type="tel"], select {
-            width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; /* Garante que o padding não aumente o tamanho */
+        body { 
+            background-color: #000;
+            margin: 0;
+            height: 100vh;
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            font-family: 'Press Start 2P', cursive; 
+            text-transform: uppercase;
+            overflow: hidden;
+            position: relative;
+            background: radial-gradient(circle at center, #1a0a2e 0%, #000000 100%);
         }
+
+        /* EFEITO DE GRADE */
+        .grid-background {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            perspective: 500px;
+            z-index: 0;
+        }
+
+        .grid-lines {
+            position: absolute;
+            width: 200%; height: 200%;
+            top: -50%; left: -50%;
+            background-image: 
+                linear-gradient(to right, rgba(75, 29, 141, 0.4) 2px, transparent 2px),
+                linear-gradient(to bottom, rgba(75, 29, 141, 0.4) 2px, transparent 2px);
+            background-size: 60px 60px;
+            transform: rotateX(60deg);
+            animation: moveGrid 3s linear infinite;
+        }
+
+        @keyframes moveGrid {
+            0% { transform: rotateX(60deg) translateY(0); }
+            100% { transform: rotateX(60deg) translateY(60px); }
+        }
+
+        /* POSICIONAMENTO DOS PERSONAGENS */
+        .char {
+            position: absolute;
+            z-index: 2;
+            image-rendering: pixelated; /* Mantém o estilo pixel art nítido */
+        }
+
+        .kris {
+            left: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100px;
+        }
+
+        .susie {
+            right: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 120px;
+        }
+
+        .ralsei {
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+        }
+
+        /* CONTAINER DO FORMULÁRIO */
+        .container { 
+            background: rgba(0, 0, 0, 0.9); 
+            padding: 30px; 
+            border: 4px solid #fff; 
+            width: 100%; 
+            max-width: 500px; 
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 0 20px rgba(75, 29, 141, 0.8);
+        }
+
+        .container::before {
+            content: "";
+            position: absolute;
+            top: 5px; left: 5px; right: 5px; bottom: 5px;
+            border: 2px solid #fff;
+            pointer-events: none;
+        }
+
+        h2 { font-size: 16px; margin-bottom: 30px; }
+        h2::before { content: "* "; }
+
+        .form-group { margin-bottom: 20px; position: relative; }
+
+        label { display: block; margin-bottom: 8px; font-size: 10px; }
+
+        input, select {
+            width: 100%; 
+            padding: 10px; 
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid #fff !important;
+            color: #fff;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 12px;
+            outline: none;
+            box-sizing: border-box;
+        }
+
         button {
-            width: 100%; padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px;
+            width: 100%; 
+            padding: 15px; 
+            background-color: transparent; 
+            color: #ff9900; 
+            border: 3px solid #ff9900; 
+            cursor: pointer; 
+            font-family: 'Press Start 2P', cursive;
+            font-size: 14px;
+            margin-top: 10px;
+            transition: 0.2s;
         }
-        button:hover { background-color: #218838; }
+
+        button:hover { 
+            background-color: #ff9900; 
+            color: #000;
+        }
+
+        .form-group:focus-within::before {
+            content: "❤";
+            position: absolute;
+            left: -30px;
+            top: 30px;
+            color: #ff0000;
+        }
+
+        /* Responsividade básica para telas menores */
+        @media (max-width: 800px) {
+            .kris, .susie { display: none; }
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>Novo Cadastro</h2>
-    <form action="/enviar-dados" method="POST">
-        <div class="form-group">
-            <label for="nome">Nome Completo:</label>
-            <input type="text" id="nome" name="nome" placeholder="Ex: João Silva" required>
-        </div>
+    <div class="grid-background">
+        <div class="grid-lines"></div>
+    </div>
 
-        <div class="form-group">
-            <label for="email">E-mail:</label>
-            <input type="email" id="email" name="email" placeholder="email@exemplo.com" required>
-        </div>
+    <img src="https://media.tenor.com/8vzE-cNf_VMAAAAi/kris-deltarune-kris.gif" class="char kris" alt="Kris">
+    <img src="https://media.tenor.com/8qguU3aky9IAAAAi/susie-deltarune.gif" class="char susie" alt="Susie">
+    <img src="https://media.tenor.com/tN52ozwR04EAAAAi/spin-ralsei.gif" class="char ralsei" alt="Ralsei">
 
-        <div class="form-group">
-            <label for="telefone">Telefone:</label>
-            <input type="tel" id="telefone" name="telefone" placeholder="(11) 99999-9999">
-        </div>
+    <div class="container">
+        <h2>RECRUTAMENTO DA PARTY</h2>
+        <form action="#">
+            <div class="form-group">
+                <label>NOME DO HUMANO:</label>
+                <input type="text" placeholder="..." required>
+            </div>
 
-        <div class="form-group">
-            <label for="genero">Gênero:</label>
-            <select id="genero" name="genero">
-                <option value="">Selecione...</option>
-                <option value="M">Masculino</option>
-                <option value="F">Feminino</option>
-                <option value="O">Outro</option>
-            </select>
-        </div>
+            <div class="form-group">
+                <label>E-MAIL DE CONTATO:</label>
+                <input type="email" placeholder="LINK.EXE" required>
+            </div>
 
-        <button type="submit">Cadastrar Cliente</button>
-    </form>
-</div>
+            <div class="form-group">
+                <label>TIPO DE ALMA:</label>
+                <select>
+                    <option value="">SELECIONE...</option>
+                    <option>DETERMINAÇÃO</option>
+                    <option>BRAVURA</option>
+                    <option>JUSTIÇA</option>
+                </select>
+            </div>
+
+            <button type="submit">[ ENTRAR NA BATALHA ]</button>
+        </form>
+    </div>
 
 </body>
 </html>
