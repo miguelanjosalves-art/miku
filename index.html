@@ -2,46 +2,184 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Cadastro - Dark World Party</title>
+    <title>Cadastro - Dark World</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    
+    <style>
+        body { 
+            background-color: #000;
+            margin: 0;
+            height: 100vh;
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            font-family: 'Press Start 2P', cursive; 
+            text-transform: uppercase;
+            overflow: hidden;
+            position: relative;
+            background: radial-gradient(circle at center, #1a0a2e 0%, #000000 100%);
+        }
+
+        /* GRADE ANIMADA */
+        .grid-background {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            perspective: 500px;
+            z-index: 0;
+        }
+
+        .grid-lines {
+            position: absolute;
+            width: 200%; height: 200%;
+            top: -50%; left: -50%;
+            background-image: 
+                linear-gradient(to right, rgba(75, 29, 141, 0.4) 2px, transparent 2px),
+                linear-gradient(to bottom, rgba(75, 29, 141, 0.4) 2px, transparent 2px);
+            background-size: 60px 60px;
+            transform: rotateX(60deg);
+            animation: moveGrid 3s linear infinite;
+        }
+
+        @keyframes moveGrid {
+            0% { transform: rotateX(60deg) translateY(0); }
+            100% { transform: rotateX(60deg) translateY(60px); }
+        }
+
+        /* PERSONAGENS */
+        .char { position: absolute; z-index: 2; image-rendering: pixelated; }
+        .kris { left: 50px; top: 50%; transform: translateY(-50%); width: 100px; }
+        .susie { right: 50px; top: 50%; transform: translateY(-50%); width: 120px; }
+        .ralsei { bottom: 20px; left: 50%; transform: translateX(-50%); width: 80px; }
+
+        /* CONTAINER DO FORMULÁRIO */
+        .container { 
+            background: rgba(0, 0, 0, 0.9); 
+            padding: 30px; 
+            border: 4px solid #fff; 
+            width: 90%; 
+            max-width: 500px; 
+            position: relative;
+            z-index: 5;
+            box-shadow: 0 0 20px rgba(75, 29, 141, 0.8);
+        }
+
+        .container::before {
+            content: "";
+            position: absolute;
+            top: 5px; left: 5px; right: 5px; bottom: 5px;
+            border: 2px solid #fff;
+            pointer-events: none;
+        }
+
+        h2, label { color: #ffffff !important; display: block; }
+        h2 { font-size: 16px; margin-bottom: 30px; }
+        label { font-size: 10px; margin-bottom: 10px; text-shadow: 2px 2px #000; }
+
+        input, select {
+            width: 100%; padding: 10px; background: transparent;
+            border: none; border-bottom: 2px solid #fff !important;
+            color: #fff !important; font-family: 'Press Start 2P';
+            font-size: 12px; outline: none; margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%; padding: 15px; background: transparent;
+            color: #ff9900; border: 3px solid #ff9900;
+            cursor: pointer; font-family: 'Press Start 2P';
+            font-size: 14px; transition: 0.2s;
+            text-transform: uppercase;
+        }
+
+        button:hover { background: #ff9900; color: #000; box-shadow: 0 0 10px #ff9900; }
+
+        /* TELA DE SUCESSO (GASTER) */
+        #gaster-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; display: none;
+            flex-direction: column; justify-content: center;
+            align-items: center; z-index: 100; color: #fff; text-align: center;
+        }
+
+        .msg { margin: 15px; font-size: 12px; line-height: 1.6; }
+
+        @media (max-width: 800px) { .kris, .susie { display: none; } }
+    </style>
 </head>
 <body>
 
-    <div class="grid-background">
-        <div class="grid-lines"></div>
-    </div>
+    <div class="grid-background"><div class="grid-lines"></div></div>
 
     <img src="https://media.tenor.com/8vzE-cNf_VMAAAAi/kris-deltarune-kris.gif" class="char kris" alt="Kris">
     <img src="https://media.tenor.com/8qguU3aky9IAAAAi/susie-deltarune.gif" class="char susie" alt="Susie">
     <img src="https://media.tenor.com/tN52ozwR04EAAAAi/spin-ralsei.gif" class="char ralsei" alt="Ralsei">
 
-    <div class="container">
-        <h2>RECRUTAMENTO DA PARTY</h2>
-        <form action="#">
-            <div class="form-group">
-                <label>NOME DO HUMANO:</label>
-                <input type="text" placeholder="..." required>
-            </div>
-
-            <div class="form-group">
-                <label>E-MAIL DE CONTATO:</label>
-                <input type="email" placeholder="LINK.EXE" required>
-            </div>
-
-            <div class="form-group">
-                <label>TIPO DE ALMA:</label>
-                <select>
-                    <option value="">SELECIONE...</option>
-                    <option>DETERMINAÇÃO</option>
-                    <option>BRAVURA</option>
-                    <option>JUSTIÇA</option>
-                </select>
-            </div>
+    <div class="container" id="main-container">
+        <h2>* RECRUTAMENTO</h2>
+        <form id="meuForm">
+            <label>NOME DO HUMANO:</label>
+            <input type="text" placeholder="..." required>
+            
+            <label>E-MAIL DE CONTATO:</label>
+            <input type="email" placeholder="LINK.EXE" required>
+            
+            <label>TIPO DE ALMA:</label>
+            <select required>
+                <option value="">ESCOLHA...</option>
+                <option>DETERMINAÇÃO (VERMELHO)</option>
+                <option>BRAVURA (LARANJA)</option>
+                <option>JUSTIÇA (AMARELO)</option>
+            </select>
 
             <button type="submit">[ ENTRAR NA BATALHA ]</button>
         </form>
     </div>
 
+    <div id="gaster-screen"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const form = document.getElementById('meuForm');
+            const gasterScreen = document.getElementById('gaster-screen');
+            const mainContainer = document.getElementById('main-container');
+
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault(); 
+
+                    // Transição para a tela do Gaster
+                    mainContainer.style.display = 'none';
+                    gasterScreen.style.display = 'flex';
+
+                    const frases = [
+                        "EXCELENTE.",
+                        "ENTÃO, NINGUÉM PODE ESCOLHER...",
+                        "QUEM ELES SÃO NESTE MUNDO.",
+                        "SUA FORMA FOI REGISTRADA."
+                    ];
+
+                    frases.forEach((texto, i) => {
+                        setTimeout(() => {
+                            const p = document.createElement('p');
+                            p.className = 'msg';
+                            p.innerText = "* " + texto;
+                            gasterScreen.appendChild(p);
+                        }, i * 2500);
+                    });
+
+                    // Finaliza com a mensagem de determinação
+                    setTimeout(() => {
+                        const final = document.createElement('p');
+                        final.style.color = "#ffff00";
+                        final.style.marginTop = "30px";
+                        final.innerText = "[ DETERMINAÇÃO AUMENTOU ]";
+                        gasterScreen.appendChild(final);
+                    }, 11000);
+
+                    // Recarrega a página após o final
+                    setTimeout(() => { location.reload(); }, 15000);
+                });
+            }
+        });
+    </script>
 </body>
 </html>
